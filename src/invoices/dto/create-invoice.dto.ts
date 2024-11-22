@@ -1,27 +1,27 @@
-import { IsString, IsNotEmpty, IsNumber, IsDate, IsEnum, IsOptional, IsMongoId } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsDate, IsEnum, IsOptional, IsMongoId, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateInvoiceDto {
-  @IsString()
-  @IsNotEmpty()
+  @IsString({ message: 'El código de la factura es obligatorio' })
+  @IsNotEmpty({ message: 'El código de la factura no puede estar vacío' })
   code: string;
 
-  @IsNumber()
-  @IsNotEmpty()
+  @IsNumber({}, { message: 'El monto de la factura debe ser un número' })
+  @Min(1, { message: 'El monto debe ser mayor que cero' })
   amount: number;
 
-  @IsDate()
+  @IsDate({ message: 'La fecha de emisión debe ser una fecha válida' })
   @Type(() => Date)
   @IsNotEmpty()
   issueDate: Date;
 
-  @IsDate()
+  @IsDate({ message: 'La fecha de descuento debe ser una fecha válida' })
   @Type(() => Date)
   @IsNotEmpty()
   discountDate: Date;
 
 
-  @IsDate()
+  @IsDate({ message: 'La fecha de vencimiento debe ser una fecha válida' })
   @Type(() => Date)
   @IsNotEmpty()
   dueDate: Date;
@@ -30,11 +30,11 @@ export class CreateInvoiceDto {
   @IsNumber()
   taxRate?: number;
 
-  @IsEnum(['nominal', 'effective'])
+  @IsEnum(['nominal', 'effective'], { message: 'El tipo de tasa debe ser "nominal" o "effective"' })
   @IsNotEmpty()
   rateType: string;
 
-  @IsNumber()
+  @IsNumber({}, { message: 'La tasa de descuento debe ser un número' })
   @IsNotEmpty()
   rateDiscount: number;
 

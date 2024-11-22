@@ -16,6 +16,15 @@ async function bootstrap() {
     }),
   );
 
+    // Habilitar CORS para todos los orígenes
+    app.enableCors({
+      origin: '*', // Permite todos los orígenes
+      methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'], // Ajusta los encabezados permitidos
+      credentials: true, // Si necesitas compartir cookies o credenciales
+    });
+  
+
   
   await app.listen(process.env.PORT ?? 3000);
 

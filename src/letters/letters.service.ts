@@ -20,7 +20,7 @@ export class LettersService {
     const timeInDays = (new Date(createLetterDto.dueDate).getTime() - new Date(createLetterDto.discountDate).getTime()) / (1000 * 60 * 60 * 24);
     if (timeInDays <= 0) {
         throw new BadRequestException(
-        `La fecha de vencimiento (${createLetterDto.dueDate}) debe ser posterior a la fecha de descuento (${createLetterDto.discountDate}).`
+        `La fecha de vencimiento  debe ser posterior a la fecha de descuento.`
         );
     }
 

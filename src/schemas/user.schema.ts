@@ -13,7 +13,7 @@ export type UserDocument = User & Document;
 
 
 @Schema({collection:'users'})
-export class User {
+export class User extends Document {
   @Prop({ required: true })
   name: string;
 

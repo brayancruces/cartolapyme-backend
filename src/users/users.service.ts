@@ -15,7 +15,9 @@ export class UsersService {
   // Crear un nuevo usuario
   async create(userData: Partial<User>): Promise<User> {
     const user = new this.userModel(userData);
-    return user.save();
+
+    const savedUser = await user.save();
+    return savedUser;
   }
 
   // Buscar usuario por ID

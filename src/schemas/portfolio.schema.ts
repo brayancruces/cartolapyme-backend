@@ -1,23 +1,36 @@
+
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { Letter } from './letter.schema';
 import { Invoice } from './factura.schema';
+import { User } from './user.schema';
 
-export type PortfolioDocument = Portfolio & Document;
-
-@Schema()
-export class Portfolio {
+@Schema({collection:'portafolio'})
+export class Portfolio extends Document {
   @Prop({ required: true })
-  discountDate: Date; // Fecha de descuento de la cartera
-
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Letter' }] })
-  letters: Types.ObjectId[]; // Referencia a las letras
-
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Invoice' }] })
-  invoices: Types.ObjectId[]; // Referencia a las facturas
+  name: string;
 
   @Prop({ required: true })
-  tcea: number; // TCEA total de la cartera
+  currency: string; // Moneda de la cartera (por ejemplo, PEN o USD)
+
+  @Prop({ required: true })
+  discountDate: Date; // Fecha de descuento general de la cartera
+
+  @Prop({ type: [Types.ObjectId], ref: 'Letter' })
+  letters: Letter[]; // Referencia a las letras asociadas
+
+  @Prop({ type: [Types.ObjectId], ref: 'Invoice' })
+  invoices: Invoice[]; // Referencia a las facturas asociadas
+
+  @Prop({ required: true })
+  interestRate: number; // Tasa de interés base para la cartera
+
+  @Prop({ required: true })
+  tcea: number; // Tasa de Coste Efectivo Anual (calculada para la cartera completa)
+
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
+  user: User; // Usuario (empresa) dueño de la cartera
 }
+
 
 export const PortfolioSchema = SchemaFactory.createForClass(Portfolio);

@@ -62,5 +62,15 @@ export class InvoicesService {
       .exec();
   
   }
+
+  async delete(invoiceId: string): Promise<{ message: string }> {
+    const result = await this.invoiceModel.findByIdAndDelete(invoiceId);
+  
+    if (!result) {
+      throw new NotFoundException(`Invoice with ID "${invoiceId}" not found`);
+    }
+  
+    return { message: `Invoice with ID "${invoiceId}" has been deleted` };
+  }
  
 }
